@@ -4,7 +4,7 @@ Ficha de treino com **carga progressiva** e um Frango que evolui junto com você
 
 ## O que ele faz
 
-- **Fichas de treino**: monte o treino A, B, C... com séries, repetições e descanso. Biblioteca com 39 exercícios e dá para criar os seus.
+- **Fichas de treino**: monte o treino A, B, C... com séries, repetições e descanso. Biblioteca com 137 exercícios em 9 grupos musculares, com filtro por equipamento (barra, halter, máquina, polia, smith, kettlebell, peso corporal, elástico). E dá para criar os seus.
 - **Treino ativo**: mostra o que você fez da última vez e já sugere a carga. Bateu todas as reps? Ele sobe o peso. Não bateu? Repete até bater.
 - **Timer de descanso** que começa sozinho quando você marca a série, com som 8-bit e vibração no celular.
 - **Recordes pessoais (PR)**: detecta na hora quando uma série bate seu recorde, pelo 1RM estimado (fórmula de Epley).

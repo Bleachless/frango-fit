@@ -152,3 +152,11 @@ body {
   .reveal.is-in .bar-rise { animation: none; }
   .flip-inner { transition: none; }
 }
+
+/* Fileiras de filtros que rolam de lado sem mostrar a barra de rolagem. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

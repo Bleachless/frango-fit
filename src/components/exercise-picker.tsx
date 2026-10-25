@@ -2,15 +2,15 @@
 
 import { useMemo, useState } from "react";
 import { Button } from "./ui";
-import { GROUPS } from "@/lib/exercises";
+import { EQUIPS, GROUPS } from "@/lib/exercises";
 import { useApp, useExercises } from "@/lib/store";
-import type { Group } from "@/lib/types";
+import type { Equip, Group } from "@/lib/types";
 
 const norm = (s: string) =>
   s
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "");
+    .replace(/[\u0300-\u036f]/g, "");
 
 // Painel para escolher um exercício da biblioteca ou criar um novo.
 export function ExercisePicker({ onPick, onClose }: { onPick: (id: string) => void; onClose: () => void }) {
@@ -18,11 +18,18 @@ export function ExercisePicker({ onPick, onClose }: { onPick: (id: string) => vo
   const addExercise = useApp((s) => s.addExercise);
   const [q, setQ] = useState("");
   const [group, setGroup] = useState<Group | "Todos">("Todos");
+  const [equip, setEquip] = useState<Equip | "Todos">("Todos");
   const [newGroup, setNewGroup] = useState<Group>("Peito");
 
   const list = useMemo(
-    () => all.filter((e) => (group === "Todos" || e.group === group) && norm(e.name).includes(norm(q))),
-    [all, group, q],
+    () =>
+      all.filter(
+        (e) =>
+          (group === "Todos" || e.group === group) &&
+          (equip === "Todos" || e.equip === equip) &&
+          norm(`${e.name} ${e.group} ${e.equip ?? ""}`).includes(norm(q)),
+      ),
+    [all, group, equip, q],
   );
 
   return (
@@ -44,10 +51,10 @@ export function ExercisePicker({ onPick, onClose }: { onPick: (id: string) => vo
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar: supino, rosca, agachamento..."
+            placeholder="Buscar: supino, smith, glúteo, polia..."
             className="w-full rounded-sm border border-line bg-iron px-3 py-2.5 text-sm outline-none placeholder:text-chalk-dim focus:border-plate-yellow"
           />
-          <div className="flex gap-1.5 overflow-x-auto pb-1">
+          <div className="no-scrollbar flex gap-1.5 overflow-x-auto pb-1">
             {(["Todos", ...GROUPS] as const).map((g) => (
               <button
                 key={g}
@@ -61,6 +68,21 @@ export function ExercisePicker({ onPick, onClose }: { onPick: (id: string) => vo
               </button>
             ))}
           </div>
+          <div className="no-scrollbar flex gap-1.5 overflow-x-auto pb-1">
+            {(["Todos", ...EQUIPS] as const).map((x) => (
+              <button
+                key={x}
+                type="button"
+                onClick={() => setEquip(x)}
+                className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] ${
+                  equip === x ? "border-plate-blue bg-plate-blue/15 text-chalk" : "border-line text-chalk-dim"
+                }`}
+              >
+                {x === "Todos" ? "Qualquer equipamento" : x}
+              </button>
+            ))}
+          </div>
+          <p className="font-pixel text-[9px] uppercase text-chalk-dim">{list.length} exercícios</p>
         </div>
         <ul className="flex-1 overflow-y-auto px-2 pb-2">
           {list.map((e) => (
@@ -70,8 +92,11 @@ export function ExercisePicker({ onPick, onClose }: { onPick: (id: string) => vo
                 onClick={() => onPick(e.id)}
                 className="flex w-full items-center justify-between gap-3 rounded-sm px-3 py-2.5 text-left hover:bg-iron-3"
               >
-                <span className="text-sm">{e.name}</span>
-                <span className="font-pixel text-[9px] uppercase text-chalk-dim">{e.group}</span>
+                <span className="min-w-0">
+                  <span className="block truncate text-sm">{e.name}</span>
+                  {e.equip && <span className="text-[11px] text-chalk-dim">{e.equip}</span>}
+                </span>
+                <span className="shrink-0 font-pixel text-[9px] uppercase text-chalk-dim">{e.custom ? "seu" : e.group}</span>
               </button>
             </li>
           ))}

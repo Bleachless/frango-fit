@@ -1,8 +1,10 @@
-export type Group = "Peito" | "Costas" | "Pernas" | "Ombros" | "Bíceps" | "Tríceps" | "Core";
+export type Group = "Peito" | "Costas" | "Pernas" | "Glúteos" | "Ombros" | "Bíceps" | "Tríceps" | "Antebraço" | "Core";
+
+export type Equip = "Barra" | "Halter" | "Máquina" | "Polia" | "Smith" | "Kettlebell" | "Peso corporal" | "Elástico";
 
 export type PlateColor = "red" | "blue" | "yellow" | "green" | "white";
 
-export type Exercise = { id: string; name: string; group: Group; custom?: boolean };
+export type Exercise = { id: string; name: string; group: Group; equip?: Equip; custom?: boolean };
 
 // Um exercício dentro da ficha: quantas séries, quantas repetições e quanto descanso.
 export type TemplateItem = { exerciseId: string; sets: number; reps: number; rest: number };
