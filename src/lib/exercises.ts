@@ -1,0 +1,47 @@
+import type { Exercise, Group } from "./types";
+
+const list: [string, string, Group][] = [
+  ["supino-reto", "Supino reto com barra", "Peito"],
+  ["supino-inclinado", "Supino inclinado com halteres", "Peito"],
+  ["supino-declinado", "Supino declinado", "Peito"],
+  ["crucifixo", "Crucifixo com halteres", "Peito"],
+  ["crossover", "Crossover na polia", "Peito"],
+  ["flexao", "Flexão de braço", "Peito"],
+  ["puxada-frente", "Puxada na frente", "Costas"],
+  ["barra-fixa", "Barra fixa", "Costas"],
+  ["remada-curvada", "Remada curvada com barra", "Costas"],
+  ["remada-baixa", "Remada baixa", "Costas"],
+  ["remada-unilateral", "Remada unilateral com halter", "Costas"],
+  ["levantamento-terra", "Levantamento terra", "Costas"],
+  ["pulldown", "Pulldown com corda", "Costas"],
+  ["agachamento-livre", "Agachamento livre", "Pernas"],
+  ["leg-press", "Leg press 45°", "Pernas"],
+  ["cadeira-extensora", "Cadeira extensora", "Pernas"],
+  ["mesa-flexora", "Mesa flexora", "Pernas"],
+  ["stiff", "Stiff", "Pernas"],
+  ["afundo", "Afundo com halteres", "Pernas"],
+  ["hack", "Agachamento hack", "Pernas"],
+  ["panturrilha", "Panturrilha em pé", "Pernas"],
+  ["elevacao-pelvica", "Elevação pélvica", "Pernas"],
+  ["desenvolvimento", "Desenvolvimento com barra", "Ombros"],
+  ["desenvolvimento-halteres", "Desenvolvimento com halteres", "Ombros"],
+  ["elevacao-lateral", "Elevação lateral", "Ombros"],
+  ["elevacao-frontal", "Elevação frontal", "Ombros"],
+  ["crucifixo-inverso", "Crucifixo inverso", "Ombros"],
+  ["encolhimento", "Encolhimento com halteres", "Ombros"],
+  ["rosca-direta", "Rosca direta com barra", "Bíceps"],
+  ["rosca-alternada", "Rosca alternada", "Bíceps"],
+  ["rosca-martelo", "Rosca martelo", "Bíceps"],
+  ["rosca-scott", "Rosca Scott", "Bíceps"],
+  ["triceps-pulley", "Tríceps pulley", "Tríceps"],
+  ["triceps-testa", "Tríceps testa", "Tríceps"],
+  ["triceps-frances", "Tríceps francês", "Tríceps"],
+  ["mergulho", "Mergulho nas paralelas", "Tríceps"],
+  ["prancha", "Prancha (segundos)", "Core"],
+  ["abdominal-supra", "Abdominal supra", "Core"],
+  ["elevacao-pernas", "Elevação de pernas", "Core"],
+];
+
+export const EXERCISES: Exercise[] = list.map(([id, name, group]) => ({ id, name, group }));
+
+export const GROUPS: Group[] = ["Peito", "Costas", "Pernas", "Ombros", "Bíceps", "Tríceps", "Core"];
