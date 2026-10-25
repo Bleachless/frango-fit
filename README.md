@@ -46,6 +46,7 @@
 | 📊 **Progresso** | Evolução por exercício, volume semanal, mapa de frequência estilo GitHub e histórico completo. |
 | 🐔 **O Frango evolui** | Sobe de nível com o seu volume, treinos e recordes, e ganha faixa, cores novas e até óculos escuros. |
 | 🧮 **Ferramentas** | Calculadora de anilhas que monta a barra com as cores olímpicas, e calculadora de 1RM com tabela de porcentagens. |
+| 🧑‍🏫 **Modo personal** | O personal monta as fichas do aluno com carga inicial e observações e manda por link, WhatsApp ou QR Code. O aluno adiciona com um toque, e um link novo atualiza as fichas sem duplicar. |
 | 🔒 **Seus dados são seus** | Tudo fica no aparelho. Backup e importação em JSON quando quiser trocar de celular. |
 
 ### Os níveis do Frango
@@ -59,6 +60,17 @@
 | Bambam | 30.000 | faixa dourada e óculos escuros |
 
 > XP = volume levantado ÷ 100 + 50 por treino + 25 por exercício com recorde.
+
+## 🧑‍🏫 Modo personal
+
+<table>
+  <tr>
+    <td width="62%"><img src="docs/personal.png" alt="Personal montando as fichas da aluna, com link, WhatsApp e QR Code" width="100%" /></td>
+    <td width="38%" align="center"><img src="docs/aluno.png" alt="Aluna abrindo o link e adicionando as fichas" width="260" /></td>
+  </tr>
+</table>
+
+Em **Fichas → Sou personal**, o personal monta as fichas (do zero ou copiando as dele), com carga inicial e uma observação por exercício, como "cadência 3-1-1". O plano inteiro vai compactado no próprio link, depois do `#`: não precisa de cadastro nem de servidor, e funciona até com o aluno escaneando o QR Code na academia. No primeiro treino, a carga do personal já vem preenchida e a observação aparece em cima do exercício.
 
 ## 🧠 Como a carga é sugerida
 
@@ -87,11 +99,12 @@ Abra http://localhost:3000. Em **Ferramentas → Carregar exemplo** você vê o 
 
 ```
 src/
-├── app/                 # telas: Hoje, Fichas, Treino, Progresso, Ferramentas
+├── app/                 # telas: Hoje, Fichas, Treino, Progresso, Ferramentas, Personal e Aluno
 ├── components/          # shell, gráficos em SVG, barra de anilhas, pixel art
 └── lib/
     ├── calc.ts          # volume, 1RM, recordes, sugestão de carga, níveis, anilhas
     ├── store.ts         # estado com zustand, salvo no localStorage
+    ├── plan.ts          # ficha do personal no link: compactar, ler e juntar sem duplicar
     ├── exercises.ts     # biblioteca de exercícios
     ├── clock.ts         # relógio que não quebra a pré-renderização
     └── sfx.ts           # sons 8-bit gerados com Web Audio, sem arquivo de áudio
@@ -105,7 +118,7 @@ src/
 
 - [ ] Conta opcional para sincronizar entre aparelhos
 - [ ] Desafios semanais entre amigos
-- [ ] Testes automatizados para `calc.ts`
+- [ ] Mais testes automatizados (o plano do personal já tem, em `plan.test.ts`)
 - [ ] Exportar o treino como imagem para compartilhar
 
 ---

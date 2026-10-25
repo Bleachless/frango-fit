@@ -131,6 +131,7 @@ function EntryCard({ entry, index, onRest }: { entry: Entry; index: number; onRe
             {ex?.group} · meta {entry.target} reps
           </p>
           <h2 className="font-display text-2xl uppercase leading-tight">{ex?.name ?? "Exercício"}</h2>
+          {entry.note && <p className="mt-1 text-xs text-plate-yellow">✎ {entry.note}</p>}
         </div>
         <button
           type="button"

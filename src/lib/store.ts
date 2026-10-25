@@ -5,6 +5,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { lastPerformance, prsBrokenBy, sessionVolume, suggestLoad } from "./calc";
 import { EXERCISES } from "./exercises";
+import { mergePlan, type Plan } from "./plan";
 import { demoSessions } from "./seed";
 import type { Exercise, Group, Session, SetLog, Template, TemplateItem } from "./types";
 
@@ -56,6 +57,10 @@ export type FinishSummary = {
   prs: ReturnType<typeof prsBrokenBy>;
 };
 
+// Rascunho do personal: as fichas que ele está montando para um aluno (não se misturam com as dele).
+export type CoachDraft = { id: string; coach: string; student: string; note: string; templates: Template[] };
+const blankDraft = (coach = ""): CoachDraft => ({ id: uid().slice(0, 8), coach, student: "", note: "", templates: [] });
+
 type State = {
   customExercises: Exercise[];
   templates: Template[];
@@ -63,10 +68,17 @@ type State = {
   active: Session | null;
   muted: boolean;
   lastSummary: FinishSummary | null;
+  draft: CoachDraft;
 
   addExercise: (name: string, group: Group) => string;
   saveTemplate: (t: Template) => void;
   deleteTemplate: (id: string) => void;
+
+  setDraft: (patch: Partial<Omit<CoachDraft, "templates">>) => void;
+  saveDraftTemplate: (t: Template) => void;
+  removeDraftTemplate: (id: string) => void;
+  newStudent: () => void;
+  importPlan: (plan: Plan) => { updated: boolean; count: number };
 
   startSession: (templateId: string | null) => void;
   updateSet: (entry: number, set: number, patch: Partial<SetLog>) => void;
@@ -84,13 +96,16 @@ type State = {
   resetAll: () => void;
 };
 
+// Sem histórico do exercício, vale a carga que veio na ficha (a do personal, por exemplo).
 const entryFor = (sessions: Session[], item: TemplateItem) => {
   const s = suggestLoad(lastPerformance(sessions, item.exerciseId), item.reps);
+  const kg = s.kg || item.kg || 0;
   return {
     exerciseId: item.exerciseId,
     target: item.reps,
     rest: item.rest,
-    sets: Array.from({ length: item.sets }, () => ({ kg: s.kg, reps: item.reps, done: false })),
+    sets: Array.from({ length: item.sets }, () => ({ kg, reps: item.reps, done: false })),
+    ...(item.note ? { note: item.note } : {}),
   };
 };
 
@@ -103,6 +118,7 @@ export const useApp = create<State>()(
       active: null,
       muted: false,
       lastSummary: null,
+      draft: blankDraft(),
 
       addExercise: (name, group) => {
         const id = `custom-${uid()}`;
@@ -114,6 +130,23 @@ export const useApp = create<State>()(
           templates: s.templates.some((x) => x.id === t.id) ? s.templates.map((x) => (x.id === t.id ? t : x)) : [...s.templates, t],
         })),
       deleteTemplate: (id) => set((s) => ({ templates: s.templates.filter((t) => t.id !== id) })),
+
+      setDraft: (patch) => set((s) => ({ draft: { ...s.draft, ...patch } })),
+      saveDraftTemplate: (t) =>
+        set((s) => ({
+          draft: {
+            ...s.draft,
+            templates: s.draft.templates.some((x) => x.id === t.id) ? s.draft.templates.map((x) => (x.id === t.id ? t : x)) : [...s.draft.templates, t],
+          },
+        })),
+      removeDraftTemplate: (id) => set((s) => ({ draft: { ...s.draft, templates: s.draft.templates.filter((t) => t.id !== id) } })),
+      newStudent: () => set((s) => ({ draft: blankDraft(s.draft.coach) })),
+      importPlan: (plan) => {
+        const { templates, customExercises } = get();
+        const out = mergePlan({ templates, customExercises }, plan, uid);
+        set({ templates: out.templates, customExercises: out.customExercises });
+        return { updated: out.updated, count: plan.templates.length };
+      },
 
       startSession: (templateId) => {
         const { templates, sessions } = get();
@@ -207,6 +240,7 @@ export const useApp = create<State>()(
         sessions: s.sessions,
         active: s.active,
         muted: s.muted,
+        draft: s.draft,
       }),
     },
   ),
