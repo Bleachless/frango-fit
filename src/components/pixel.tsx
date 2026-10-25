@@ -77,7 +77,8 @@ export const FRANGO = {
 };
 
 // Visual do Frango em cada nível: a faixa muda de cor e, no topo, ele ganha óculos escuros.
-const SHADES = { 4: "..............kkkk" };
+// Óculos escuros com um pontinho de brilho na lente.
+const SHADES = { 4: ".............kWkkk", 5: "..............kk" };
 const BAND_COLORS = ["", "#3b7be0", "#e5432f", "#f3c13a", "#f3c13a"];
 
 export function frangoFor(level: number, wingUp: boolean) {
