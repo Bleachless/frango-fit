@@ -1,44 +1,117 @@
-# Frango Fit 🐔
+<div align="center">
 
-Ficha de treino com **carga progressiva** e um Frango que evolui junto com você. Feito para usar no celular, no meio da série: sem login, sem servidor, funciona offline e dá para instalar na tela inicial.
+<img src="docs/banner.png" alt="Frango Fit: ficha de treino com carga progressiva e um Frango que evolui junto com você" width="100%" />
 
-## O que ele faz
+<br />
 
-- **Fichas de treino**: monte o treino A, B, C... com séries, repetições e descanso. Biblioteca com 137 exercícios em 9 grupos musculares, com filtro por equipamento (barra, halter, máquina, polia, smith, kettlebell, peso corporal, elástico). E dá para criar os seus.
-- **Treino ativo**: mostra o que você fez da última vez e já sugere a carga. Bateu todas as reps? Ele sobe o peso. Não bateu? Repete até bater.
-- **Timer de descanso** que começa sozinho quando você marca a série, com som 8-bit e vibração no celular.
-- **Recordes pessoais (PR)**: detecta na hora quando uma série bate seu recorde, pelo 1RM estimado (fórmula de Epley).
-- **Progresso**: gráfico de evolução por exercício, volume semanal, mapa de frequência estilo GitHub e histórico completo.
-- **O Frango sobe de nível** com o seu volume, treinos e recordes: Frango → Frango Fit → Marombeiro → Monstro → Bambam.
-- **Ferramentas**: calculadora de anilhas (mostra a barra montada com as cores olímpicas) e calculadora de 1RM com tabela de porcentagens.
-- **Seus dados são seus**: tudo fica no aparelho. Backup e importação em JSON.
+![Next.js](https://img.shields.io/badge/Next.js_16-0d0e0c?style=for-the-badge&logo=nextdotjs&logoColor=ece7dc)
+![React](https://img.shields.io/badge/React_19-0d0e0c?style=for-the-badge&logo=react&logoColor=3b7be0)
+![TypeScript](https://img.shields.io/badge/TypeScript-0d0e0c?style=for-the-badge&logo=typescript&logoColor=3b7be0)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_4-0d0e0c?style=for-the-badge&logo=tailwindcss&logoColor=3fae6d)
+![PWA](https://img.shields.io/badge/PWA-0d0e0c?style=for-the-badge&logo=pwa&logoColor=f3c13a)
 
-## Rodar localmente
+**Feito para usar no celular, no meio da série.** Sem login, sem servidor, funciona offline e instala na tela inicial.
+
+</div>
+
+---
+
+## 📱 Telas
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/hoje.png" width="210" alt="Tela Hoje com o Frango, nível e números da semana" /><br /><sub><b>Hoje</b><br />nível, metas e frequência</sub></td>
+    <td align="center"><img src="docs/treino.png" width="210" alt="Treino ativo com sugestão de carga, recorde e timer de descanso" /><br /><sub><b>Treino</b><br />carga sugerida, PR e descanso</sub></td>
+    <td align="center"><img src="docs/progresso.png" width="210" alt="Gráfico de evolução de um exercício" /><br /><sub><b>Progresso</b><br />evolução e volume</sub></td>
+    <td align="center"><img src="docs/ferramentas.png" width="210" alt="Calculadora de anilhas com a barra montada" /><br /><sub><b>Ferramentas</b><br />anilhas e 1RM</sub></td>
+  </tr>
+</table>
+
+<details>
+<summary><b>Ver no desktop</b></summary>
+<br />
+<img src="docs/desktop.png" alt="Frango Fit no desktop" width="100%" />
+</details>
+
+## 🏋️ O que ele faz
+
+| | |
+| --- | --- |
+| 📋 **Fichas de treino** | Monte treino A, B, C... com séries, repetições e descanso. **137 exercícios** em 9 grupos musculares, com filtro por equipamento, e dá para criar os seus. |
+| 📈 **Carga progressiva** | Mostra o que você fez da última vez e já sugere o peso. Bateu todas as reps? Sobe. Não bateu? Repete até bater. |
+| ⏱️ **Descanso automático** | O timer começa sozinho quando você marca a série, com som 8-bit e vibração no celular. |
+| 🏆 **Recordes na hora** | Cada série é comparada com seu melhor 1RM estimado. Bateu? Aparece **PR!** ali mesmo. |
+| 📊 **Progresso** | Evolução por exercício, volume semanal, mapa de frequência estilo GitHub e histórico completo. |
+| 🐔 **O Frango evolui** | Sobe de nível com o seu volume, treinos e recordes, e ganha faixa, cores novas e até óculos escuros. |
+| 🧮 **Ferramentas** | Calculadora de anilhas que monta a barra com as cores olímpicas, e calculadora de 1RM com tabela de porcentagens. |
+| 🔒 **Seus dados são seus** | Tudo fica no aparelho. Backup e importação em JSON quando quiser trocar de celular. |
+
+### Os níveis do Frango
+
+| Nível | XP | Visual |
+| --- | --- | --- |
+| Frango | 0 | o clássico, todo mundo começa aqui |
+| Frango Fit | 1.000 | ganha a faixa azul |
+| Marombeiro | 4.000 | faixa vermelha |
+| Monstro | 12.000 | faixa dourada |
+| Bambam | 30.000 | faixa dourada e óculos escuros |
+
+> XP = volume levantado ÷ 100 + 50 por treino + 25 por exercício com recorde.
+
+## 🧠 Como a carga é sugerida
+
+A regra é a da **dupla progressão**, simples e usada em academia de verdade:
+
+1. O app procura a última vez que você fez aquele exercício.
+2. Se **todas** as séries bateram as repetições da meta, sugere a carga mais alta daquele dia **+2,5 kg** (ou +2 kg / +1 kg em cargas leves).
+3. Se alguma série ficou abaixo, sugere **repetir a carga** até bater tudo.
+
+O recorde de cada exercício é o **1RM estimado** pela fórmula de Epley: `carga × (1 + reps / 30)`. Assim, 80 kg × 8 e 90 kg × 3 podem ser comparados na mesma régua.
+
+Toda essa lógica está em [`src/lib/calc.ts`](src/lib/calc.ts), em funções puras e fáceis de testar.
+
+## 🚀 Rodar localmente
 
 ```bash
+git clone https://github.com/Bleachless/frango-fit.git
+cd frango-fit
 npm install
 npm run dev
 ```
 
-Abra http://localhost:3000. Em **Ferramentas → Carregar exemplo** dá para ver o app com 6 semanas de treino.
+Abra http://localhost:3000. Em **Ferramentas → Carregar exemplo** você vê o app com 6 semanas de treino.
 
-## Como funciona por dentro
+## 🗂️ Por dentro
 
-| Parte | Onde |
-| --- | --- |
-| Estado e persistência (zustand + localStorage) | `src/lib/store.ts` |
-| Cálculos: volume, 1RM, PRs, sugestão de carga, nível, anilhas | `src/lib/calc.ts` |
-| Biblioteca de exercícios | `src/lib/exercises.ts` |
-| Telas | `src/app/*/page.tsx` |
-| Pixel art do Frango e das anilhas | `src/components/pixel.tsx` |
-| Sons 8-bit (Web Audio, sem arquivos) | `src/lib/sfx.ts` |
+```
+src/
+├── app/                 # telas: Hoje, Fichas, Treino, Progresso, Ferramentas
+├── components/          # shell, gráficos em SVG, barra de anilhas, pixel art
+└── lib/
+    ├── calc.ts          # volume, 1RM, recordes, sugestão de carga, níveis, anilhas
+    ├── store.ts         # estado com zustand, salvo no localStorage
+    ├── exercises.ts     # biblioteca de exercícios
+    ├── clock.ts         # relógio que não quebra a pré-renderização
+    └── sfx.ts           # sons 8-bit gerados com Web Audio, sem arquivo de áudio
+```
 
-Next.js 16, React 19, Tailwind CSS 4, TypeScript e zustand. Todas as páginas são estáticas: dá para publicar na Vercel sem configurar nada.
+- **Next.js 16 + React 19** com todas as páginas estáticas: dá para hospedar de graça e abrir offline.
+- **zustand** com persistência no navegador: zero servidor, zero cadastro.
+- **Gráficos e pixel art feitos à mão em SVG**, sem biblioteca de gráficos.
 
-## Publicar
+## 🛣️ Próximos passos
 
-Na Vercel: **Add New → Project**, importe este repositório e clique em **Deploy**.
+- [ ] Conta opcional para sincronizar entre aparelhos
+- [ ] Desafios semanais entre amigos
+- [ ] Testes automatizados para `calc.ts`
+- [ ] Exportar o treino como imagem para compartilhar
 
 ---
 
-Feito por [João Vaz](https://github.com/Bleachless). O Frango também mora no meu portfólio.
+<div align="center">
+
+Feito por **[João Vaz](https://github.com/Bleachless)**, que programa de dia e treina de noite.
+<br />
+O Frango também mora no meu portfólio. 🐔
+
+</div>
