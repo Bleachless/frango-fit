@@ -4,7 +4,7 @@
 
 <br />
 
-[![Abrir o app](https://img.shields.io/badge/%E2%96%B6_Abrir_o_app-frango--fit.vercel.app-e5432f?style=for-the-badge)](https://frango-fit.vercel.app)
+[![Abrir o app](https://img.shields.io/badge/%E2%96%B6_Abrir_o_app-frango--fit.joaovaz.dev-e5432f?style=for-the-badge)](https://frango-fit.joaovaz.dev)
 
 ![Next.js](https://img.shields.io/badge/Next.js_16-0d0e0c?style=for-the-badge&logo=nextdotjs&logoColor=ece7dc)
 ![React](https://img.shields.io/badge/React_19-0d0e0c?style=for-the-badge&logo=react&logoColor=3b7be0)
